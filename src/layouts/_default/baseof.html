@@ -1,0 +1,45 @@
+<!-- layouts/_default/baseof.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ if .IsHome }}Competency Center{{ else }}{{ .Title }} - Competency Center{{ end }}</title>
+    {{ $style := resources.Get "css/main.css" }}
+    {{ if $style }}
+        {{ $style = $style | resources.ToCSS | resources.Minify | resources.Fingerprint }}
+        <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+    {{ else }}
+        <style>
+            /* Fallback minimal styling */
+            body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 20px; }
+            header { background: #c41e3a; color: white; padding: 10px; }
+            main { margin-top: 20px; }
+        </style>
+    {{ end }}
+    <script src="/pagefind/pagefind-ui.js"></script>
+    <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <div class="logo-placeholder"></div>
+            <h2>COMPETENCY CENTER</h2>
+        </div>
+        <nav>
+            <a href="/faq">FAQ</a>
+            <a href="/pillars">PILLARS V</a>
+            <div id="search"></div>
+            <a href="/student-handbook" class="student-handbook">STUDENT HANDBOOK</a>
+        </nav>
+    </header>
+    <main>
+        {{ block "main" . }}{{ end }}
+    </main>
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            new PagefindUI({ element: "#search" });
+        });
+    </script>
+</body>
+</html>
