@@ -1,0 +1,34 @@
+{{ define "main" }}
+<div class="content">
+    <div class="breadcrumb">{{ .Parent.Title }} > {{ .Title }}</div>
+    <h1>{{ .Params.competencyCode }} - {{ .Title }}</h1>
+    {{ .Content }}
+    <h2>Skills Evaluated</h2>
+    <ul class="skills-list">
+        {{ range .Params.skills }}
+        <li>{{ . }}</li>
+        {{ end }}
+    </ul>
+    <h2>Assessment Overview</h2>
+    {{ .Params.assessmentOverview | markdownify }}
+    <h2>Recommended Prior Skills & Knowledge</h2>
+    {{ .Params.priorSkills | markdownify }}
+    <h2>General Advice</h2>
+    {{ .Params.generalAdvice | markdownify }}
+    <h2>Notes from Students & External Resources</h2>
+    {{ .Params.externalResources | markdownify }}
+</div>
+<div class="sidebar">
+    <h2>COMPETENCY INFO</h2>
+    <div class="competency-info">
+        <p><strong>Competency Code:</strong> {{ .Params.competencyCode }}</p>
+        <p><strong>Competency Name:</strong> {{ .Title }}</p>
+        <p><strong>Credit:</strong> {{ .Params.credit }}</p>
+        <p><strong>Instructor:</strong> {{ .Params.instructor }}</p>
+        <p><strong>Required?:</strong> {{ if .Params.required }}Yes{{ else }}No{{ end }}</p>
+        <p><strong>Pillar:</strong> {{ .Params.pillar }}</p>
+        <p><strong>Subdomain:</strong> {{ .Params.subdomain }}</p>
+    </div>
+    <div class="last-updated">Last Updated: {{ .Lastmod.Format "02/01/2006" }}</div>
+</div>
+{{ end }}
