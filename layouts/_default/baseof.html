@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .Title }} - Competency Center</title>
+    {{ $style := resources.Get "css/main.css" | resources.ToCSS | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+    <script src="/pagefind/pagefind-ui.js"></script>
+    <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <div class="logo-placeholder"></div>
+            <h2>COMPETENCY CENTER</h2>
+        </div>
+        <nav>
+            <a href="/faq">FAQ</a>
+            <a href="/pillars">PILLARS V</a>
+            <div id="search"></div>
+            <a href="/student-handbook" class="student-handbook">STUDENT HANDBOOK</a>
+        </nav>
+    </header>
+    <main>
+        {{ block "main" . }}{{ end }}
+    </main>
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            new PagefindUI({ element: "#search" });
+        });
+    </script>
+</body>
+</html>

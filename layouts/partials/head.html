@@ -1,0 +1,10 @@
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .Title }} - Competency Center</title>
+    {{ $style := resources.Get "css/main.css" | resources.ToCSS | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+    <script src="/pagefind/pagefind-ui.js"></script>
+    <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+</head>

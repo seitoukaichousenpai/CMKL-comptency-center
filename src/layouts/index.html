@@ -1,0 +1,30 @@
+{{ define "main" }}
+<div class="home-content">
+    <h1>{{ .Title }}</h1>
+    {{ .Content }}
+    
+    {{ if .Params.featured_competencies }}
+    <div class="featured-competencies">
+        <h2>Featured Competencies</h2>
+        <ul>
+            {{ range .Params.featured_competencies }}
+            <li>
+                <a href="{{ .competencyCode | lower | urlize }}">
+                    <span class="competency-code">{{ .competencyCode }}</span> - {{ .title }}
+                </a>
+            </li>
+            {{ end }}
+        </ul>
+    </div>
+    {{ end }}
+    
+    <div class="pillar-list">
+        <h2>Pillars</h2>
+        <ul>
+            {{ range .Site.Sections }}
+            <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+            {{ end }}
+        </ul>
+    </div>
+</div>
+{{ end }}
