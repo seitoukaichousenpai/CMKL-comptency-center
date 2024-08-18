@@ -24,9 +24,6 @@ Our competency-based curriculum is structured to provide you with practical, rea
 
 Here are some of our featured competencies:
 
-{{ range .Params.featured_competencies }}
-- [{{ .competencyCode }}] {{ .title }}
-{{ end }}
 
 ## Get Started
 
