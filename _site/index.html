@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[SEN-102] Introduction to Programming - Competency Center</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        header {
+            background-color: #c41e3a;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        .logo img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+            background-color: #fff;
+            border-radius: 50%;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+        .student-handbook {
+            background-color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: #c41e3a;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        main {
+            display: flex;
+            margin: 20px;
+        }
+        .content {
+            flex: 2;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin-right: 20px;
+        }
+        .sidebar {
+            flex: 1;
+            background-color: #c41e3a;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        h1, h2 {
+            color: #c41e3a;
+        }
+        .content h2 {
+            margin-top: 20px;
+        }
+        .skills-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .skills-list li {
+            margin-bottom: 10px;
+        }
+        .competency-info {
+            margin-top: 0;
+        }
+        .competency-info p {
+            margin: 5px 0;
+        }
+        .sidebar h2 {
+            color: white;
+            margin-top: 0;
+        }
+        .breadcrumb {
+            color: #c41e3a;
+            margin-bottom: 10px;
+        }
+        .last-updated {
+            font-size: 0.8em;
+            text-align: right;
+            margin-top: 20px;
+        }
+        #search-input {
+            width: 200px;
+            padding: 5px;
+            margin-right: 10px;
+        }
+        #search-results {
+            position: absolute;
+            background-color: white;
+            list-style-type: none;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        #search-results li {
+            margin-bottom: 5px;
+        }
+        #search-results a {
+            color: #c41e3a;
+            text-decoration: none;
+        }
+        #search-results a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <div class="logo-placeholder"></div>
+            <h2>COMPETENCY CENTER</h2>
+        </div>
+        <nav>
+            <input type="text" id="search-input" placeholder="Search competencies...">
+            <a href="#">FAQ</a>
+            <a href="#">PILLARS V</a>
+            <a href="#">SEARCH</a>
+            <a href="#" class="student-handbook">STUDENT HANDBOOK</a>
+        </nav>
+    </header>
+    <main>
+        <div class="content">
+            <div class="breadcrumb">Pillars > Software Engineering > SEN-102</div>
+            <h1>[SEN-102] Introduction to Programming</h1>
+            <p>Your page content goes here…</p>
+
+        </div>
+        <div class="sidebar">
+            <h2>COMPETENCY INFO</h2>
+            <div class="competency-info">
+                <p><strong>Competency Code:</strong> SEN-102</p>
+                <p><strong>Competency Name:</strong> Introduction to Programming</p>
+                <p><strong>Credit:</strong> 6</p>
+                <p><strong>Instructor:</strong> Sally Goldin</p>
+                <p><strong>Required?:</strong> true</p>
+                <p><strong>Pillar:</strong> Software Engineering</p>
+                <p><strong>Subdomain:</strong> Programming Fundamentals</p>
+            </div>
+            <div class="last-updated">Last Updated: 15/7/2024</div>
+        </div>
+    </main>
+    <ul id="search-results"></ul>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script>
+    <script>
+        // Initialize lunr index
+        var idx = lunr(function () {
+            this.field('title')
+            this.field('content')
+            this.field('competency_code')
+            this.field('competency_name')
+            this.field('instructor')
+            this.field('pillar')
+            this.field('subdomain')
+        });
+
+        // Load your data (you'll need to generate this JSON file from your Jekyll pages)
+        fetch('/search_data.json')
+            .then(response => response.json())
+            .then(data => {
+                // Add documents to the index
+                data.forEach(function (doc) {
+                    idx.add(doc);
+                });
+
+                // Set up search functionality
+                document.getElementById('search-input').addEventListener('input', function() {
+                    var query = this.value;
+                    var results = idx.search(query);
+                    displayResults(results, data);
+                });
+            });
+
+        function displayResults(results, data) {
+            var searchResults = document.getElementById('search-results');
+            searchResults.innerHTML = '';
+            results.forEach(function(result) {
+                var item = data.find(function(d) { return d.id === result.ref; });
+                var li = document.createElement('li');
+                var a = document.createElement('a');
+                a.href = item.url;
+                a.textContent = item.title;
+                li.appendChild(a);
+                searchResults.appendChild(li);
+            });
+        }
+    </script>
+</body>
+</html>
